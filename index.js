@@ -32,6 +32,7 @@ async function run() {
         const toyCollection = client.db('toyCar').collection('services');
 
 
+
         app.get('/toys', async (req, res) => {
             const cursor = toyCollection.find();
             const result = await cursor.toArray();
@@ -79,12 +80,12 @@ async function run() {
         // })
 
 
-        // app.delete('/toys/:id', async (req, res) => {
-        //     const id = req.params.id;
-        //     const query = { _id: new ObjectId(id) }
-        //     const result = await toyCollection.deleteOne(query)
-        //     res.send(result)
-        // })
+        app.delete('/myToys/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) }
+            const result = await toyCollection.deleteOne(query)
+            res.send(result)
+        })
 
 
         // Send a ping to confirm a successful connection
