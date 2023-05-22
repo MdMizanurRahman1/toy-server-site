@@ -48,12 +48,43 @@ async function run() {
             res.send(result);
         })
 
+        app.get('/myToys/:email', async (req, res) => {
+            let query = {}
+            if (req.query?.email) {
+                query = { email: req.query.email }
+            }
+            const result = await toyCollection.find(query).toArray();
+            res.send(result)
+
+        })
+
+
         app.post('/addToy', async (req, res) => {
             const allToys = req.body;
             const result = await toyCollection.insertOne(allToys);
-            console.log(result)
             res.send(result)
         })
+        // app.put('/toys/:id', async (req, res) => {
+        //     const id = req.params.id;
+        //     const filter = { _id: new ObjectId(id) };
+        //     const options = { upsert: true };
+        //     const updatedToys = req.body;
+        //     const toys = {
+        //         $set: {
+
+        //         }
+        //     };
+        //     const result = await toyCollection.updateOne(filter, options, toys);
+        //     res.send(result)
+        // })
+
+
+        // app.delete('/toys/:id', async (req, res) => {
+        //     const id = req.params.id;
+        //     const query = { _id: new ObjectId(id) }
+        //     const result = await toyCollection.deleteOne(query)
+        //     res.send(result)
+        // })
 
 
         // Send a ping to confirm a successful connection
