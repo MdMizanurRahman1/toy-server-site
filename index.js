@@ -9,10 +9,6 @@ app.use(cors());
 app.use(express.json());
 
 
-
-
-
-
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.2kfdekm.mongodb.net/?retryWrites=true&w=majority`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -65,19 +61,22 @@ async function run() {
             const result = await toyCollection.insertOne(allToys);
             res.send(result)
         })
-        // app.put('/toys/:id', async (req, res) => {
-        //     const id = req.params.id;
-        //     const filter = { _id: new ObjectId(id) };
-        //     const options = { upsert: true };
-        //     const updatedToys = req.body;
-        //     const toys = {
-        //         $set: {
 
-        //         }
-        //     };
-        //     const result = await toyCollection.updateOne(filter, options, toys);
-        //     res.send(result)
-        // })
+        app.put('/toys/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: new ObjectId(id) };
+            const options = { upsert: true };
+            const updatedToys = req.body;
+            const toys = {
+                $set: {
+                    price: updatedToys.price,
+                    availableQuantity: updatedToys.availableQuantity,
+                    detailDescription: updatedToys.detailDescription
+                }
+            };
+            const result = await toyCollection.updateOne(filter, options, toys);
+            res.send(result)
+        })
 
 
         app.delete('/myToys/:id', async (req, res) => {
@@ -97,10 +96,6 @@ async function run() {
     }
 }
 run().catch(console.dir);
-
-
-
-
 
 
 app.get('/', (req, res) => {
