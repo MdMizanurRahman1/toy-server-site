@@ -75,7 +75,7 @@ async function run() {
                     detailDescription: updatedToys.detailDescription
                 }
             };
-            const result = await toyCollection.updateOne(filter, options, toys);
+            const result = await toyCollection.updateOne(filter, toys, options);
             res.send(result)
         })
 
